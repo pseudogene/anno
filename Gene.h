@@ -260,19 +260,19 @@ public:
       int n = (*codonNum) % 3;
       int cdsIdx = i;
       switch(n){
-        case 0:
+        case 2:
           codonPos[2] = variantPos;
           codonPos[1] = nextCodonPos(codonPos[2], &cdsIdx, -1);
           codonPos[0] = nextCodonPos(codonPos[1], &cdsIdx, -1);
           break;
-        case 1:
+        case 0:
           codonPos[0] = variantPos;
-          codonPos[1] = nextCodonPos(codonPos[0], &cdsIdx, 1);
-          codonPos[2] = nextCodonPos(codonPos[1], &cdsIdx, 1);
+          codonPos[1] = nextCodonPos(codonPos[0], &cdsIdx, +1);
+          codonPos[2] = nextCodonPos(codonPos[1], &cdsIdx, +1);
           break;
-        case 2:
+        case 1:
           codonPos[1] = variantPos;
-          codonPos[2] = nextCodonPos(codonPos[1], &cdsIdx, 1);
+          codonPos[2] = nextCodonPos(codonPos[1], &cdsIdx, +1);
           cdsIdx = i;
           codonPos[0] = nextCodonPos(codonPos[1], &cdsIdx, -1);
           break;
@@ -307,7 +307,7 @@ public:
           codonPos[0] = nextCodonPos(codonPos[1], &cdsIdx, +1);
           break;
       }
-    }
+   }
     if (codonPos[0] != -1 && codonPos[1] != -1 && codonPos[2] != -1)
       return true;
     return false;
