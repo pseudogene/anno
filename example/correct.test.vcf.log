@@ -4,7 +4,7 @@ Analysis program [ ../anno ] started on Tue Jan 29 21:30:17 2013
 Version: 9db7c785a926bfe700087ed18288cb9c8f14717a
 Reference genome file test.fa loads succeed!
 Codon file ../codon.txt loads succeed!
-Priority file /net/fantasia/home/zhanxw/anno/priority.txt load succeed!
+Priority file /usr/share/anno/priority.txt load succeed!
 Input gene format: refFlat
 Gene file test.gene.txt loads succeed!
 Generate frequency of each annotation type in correct.test.vcf.anno.frq succeed!

@@ -2,7 +2,7 @@ EXEC = anno
 DEFAULT_CXXFLAGS = -D__STDC_LIMIT_MACROS
 
 
-.PHONY: release debug
+.PHONY: release debug install
 all: release
 
 ##################################################
@@ -16,7 +16,7 @@ third/tabix/libtabix.a:
 ARCH := $(firstword $(shell uname -m))
 SYS := $(firstword $(shell uname -s))
 ifeq ($(SYS), Linux)
-  STATIC_FLAG = -static                                                  
+  STATIC_FLAG = -static
 endif
 
 ##################################################
@@ -25,6 +25,11 @@ release: CXXFLAGS = -O2 -DNDEBUG $(DEFAULT_CXXFLAGS) $(STATIC_FLAG)
 release: $(EXEC)
 	-mkdir -p executable
 	cp -f $(EXEC) executable
+install:
+	install -t /usr/local/bin/ $(EXEC)
+	mkdir -p /usr/share/anno
+	install -m=644 -t /usr/share/anno/ codon.txt
+	install -m=644 -t /usr/share/anno/ priority.txt
 debug: CXXFLAGS = -Wall -ggdb -O0 $(DEFAULT_CXXFLAGS)
 debug: $(EXEC)
 profile: CXXFLAGS = -ggdb -pg -O0 $(DEFAULT_CXXFLAGS)
@@ -151,5 +156,5 @@ testStringTemplate: testStringTemplate.cpp StringTemplate.h
 testLineBreaker: testLineBreaker.cpp LineBreaker.h
 	g++ -g -o $@ $<
 doc:
-	java -jar ext/wiki2html.jar README.wiki > README.html 
-	pandoc -f html -t markdown README.html > README.md 
+	java -jar ext/wiki2html.jar README.wiki > README.html
+	pandoc -f html -t markdown README.html > README.md

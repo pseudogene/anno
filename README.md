@@ -104,21 +104,21 @@ genome, ts/tv ratio, total number of variants and so on.
      Available Options
          Required Parameters : -i [input.vcf], -o [output.vcf]
             Gene Annotations :
-                               -g [/net/fantasia/home/zhanxw/anno/resources/refFlat_hg19.txt.gz]
-                               -r [/net/fantasia/home/zhanxw/anno/resources/hs37d5.fa]
+                               -g [resources/refFlat_hg19.txt.gz]
+                               -r [resources/hs37d5.fa]
                                --inputFormat [], --checkReference, -f [], -p []
                                -c [], -u [], -d [], --se [], --si []
            Other Annotations : --genomeScore [], --bed [], --tabix []
          Auxillary Functions : --outputFormat [], --indexOutput
-     Use default priority file: /net/fantasia/home/zhanxw/anno/priority.txt
-     Use default codon file: /net/fantasia/home/zhanxw/anno/codon.txt
-     Load reference genome /net/fantasia/home/zhanxw/anno/resources/hs37d5.fa...
+     Use default priority file: /usr/share/anno/priority.txt
+     Use default codon file: /usr/share/anno/codon.txt
+     Load reference genome resources/hs37d5.fa...
      DONE: 86 chromosomes and 3137454505 bases are loaded.
-     Load codon file /net/fantasia/home/zhanxw/anno/codon.txt...
+     Load codon file //usr/share/anno/codon.txt...
      DONE: codon file loaded.
-     Load priority file /net/fantasia/home/zhanxw/anno/priority.txt...
+     Load priority file /usr/share/anno/priority.txt...
      DONE: 25 priority annotation types loaded.
-     Load gene file /net/fantasia/home/zhanxw/anno/resources/refFlat_hg19.txt.gz...
+     Load gene file resources/refFlat_hg19.txt.gz...
      DONE: 39173 gene loaded.
      DONE: Generated frequency of each annotype type in [ output.vcf.anno.frq ].
      DONE: Generated frequency of each highest priority annotation type in [ output.vcf.top.anno.frq ].
@@ -141,9 +141,9 @@ You can download the source, unpack the tar file and compile (type 'make').
 
 For CSG internal users, the compiled executable file is at:
 /net/fantasia/home/zhanxw/anno/executable/anno
+The source code is located at: /net/fantasia/home/zhanxw/anno.
 
-The source code is located at: /net/fantasia/home/zhanxw/anno . You can
-type 'make release' to compile your own executable file. Type "make
+You can type 'make release' to compile your own executable file. Type "make
 test1" or "make test2" will demonstrate the command line to annotate
 example VCF files.
 
@@ -160,12 +160,14 @@ executable file under executable/anno.
 Here is the help page by invoking TabAnno under command line with no parameters:
 
      some_linux_host > executable/anno
-    ..............................................       
-     ...      G(ene) A(nnotation)                ...     
-      ...      Xiaowei Zhan, Goncalo Abecasis     ...    
-       ...      zhanxw@umich.edu                    ...  
-        ...      Dec 2012                            ... 
-         ................................................
+    ..............................................         
+     ...      G(ene) A(nnotation)                ...       
+      ...      Xiaowei Zhan, Goncalo Abecasis     ...      
+       ...      zhanxw@umich.edu                    ...    
+        ...      Dec 2012                            ...   
+         ...      Updated May 2016                    ...  
+          ...             by michael.bekaert@stir.ac.uk ... 
+           .................................................
                                                          
     Required Parameters
                            -i : Specify input VCF file
@@ -201,8 +203,8 @@ anno runs on the input VCF file specified on the command-line using flag
 '-i'.
 
 Additionally, you need to specify gene file using flag '-g'. You can use
-the default refFlat file (using HG19 genome build):
-/net/fantasia/home/zhanxw/anno/refFlat\_hg19.txt.gz
+the default refFlat file (using HG19 genome build) at
+http://qbrc.swmed.edu/zhanxw/software/anno/resources/refFlat_hg19.txt.gz
 
 Parameters
 ----------
@@ -232,22 +234,21 @@ For example, you can specify Fasta file of the whole genome and use "-r
 
 Currently, TabAnno supports gene file in refFlat format. A prepared list of
 all gene obtained of UCSC website is:
-"/net/fantasia/home/zhanxw/anno/refFlat\_hg19.txt.gz" . To use that
-file, you use flag *-g*.
+"http://qbrc.swmed.edu/zhanxw/software/anno/resources/refFlat_hg19.txt.gz".
+To use that file, you use flag *-g*.
 
 As TabAnno supports refFlat file by default, you can use refFlat format
 without specify gene format flag *-f*.
 
 To use knownGene or refGene format, you need to specify both *-g* and
 *-f* flat to tell TabAnno which gene file and which format it is. For
-example, *-g /net/fantasia/home/zhanxw/anno/knownGene.txt.gz -f
-knownGene*.
+example, *-g knownGene.txt.gz -f knownGene*.
 
 -   Codon file
 
 Codon file can tell the relationship between triplet codons and amino
 acids. A default file is located in:
-*/net/fantasia/home/zhanxw/anno/codon.txt*. If you have special codon
+*/usr/share/anno/codon.txt*. If you have special codon
 file, you can specify that using flag *-c*, otherwise, TabAnno will use the
 default codon file:
 
@@ -331,7 +332,7 @@ to 'SIFT=0.110;PolyPhen=0.00' in the VCF INFO field. NOTE, in bash,
 please use quote around parenthesis, otherwise parenthesis is not
 correctly treated. A working example is as follows:
 
-    --tabix '/net/fantasia/home/hmkang/bin/annovar/humandb/hg19_ljb_all.txt.gz(chrom=1,pos=2,ref=4,alt=5,mySift=6,mySC=7,myPP2=8,myPC=9)' 
+                       --tabix 'hg19_ljb_all.txt.gz(chrom=1,pos=2,ref=4,alt=5,mySift=6,mySC=7,myPP2=8,myPC=9)' 
 
 
 Example

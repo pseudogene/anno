@@ -35,31 +35,33 @@
 
 void banner(FILE* fp) {
   const char* string =
-      "..............................................         \n"
-      " ...      TabAnno(tation)                    ...       \n"
-      "  ...      Xiaowei Zhan, Goncalo Abecasis     ...      \n"
-      "   ...      Speical Thanks:                    ...     \n"
-      "    ...      Hyun Ming Kang, Yanming Li         ...    \n"
-      "     ...      zhanxw@umich.edu                    ...  \n"
-      "      ...      Feb 2013                            ... \n"
-      "       ................................................\n"
-      "                                                       \n"
+      "..............................................           \n"
+      " ...      TabAnno(tation)                    ...         \n"
+      "  ...      Xiaowei Zhan, Goncalo Abecasis     ...        \n"
+      "   ...      Speical Thanks:                    ...       \n"
+      "    ...      Hyun Ming Kang, Yanming Li         ...      \n"
+      "     ...      zhanxw@umich.edu                    ...    \n"
+      "      ...      Feb 2013                            ...   \n"
+      "       ...      Updated May 2016                    ...  \n"
+      "        ...             by michael.bekaert@stir.ac.uk ...\n"
+      "         ................................................\n"
+      "                                                         \n"
       ;
   fputs(string, fp);
 #ifndef NDEBUG
   const char* debug =
-      "-------------------------------------------------------\n"
-      "|                                                     |\n"
-      "|                DEBUG  MODE                          |\n"
-      "|                (slow mode)                          |\n"
-      "|                                                     |\n"
-      "|   Try:                                              |\n"
-      "|      make clean; make release                       |\n"
-      "|   then run:                                         |\n"
-      "|      ./executable/anno                              |\n"
-      "|   to use release/fast version                       |\n"
-      "|                                                     |\n"
-      "-------------------------------------------------------\n"
+      "---------------------------------------------------------\n"
+      "|                                                       |\n"
+      "|                DEBUG  MODE                            |\n"
+      "|                (slow mode)                            |\n"
+      "|                                                       |\n"
+      "|   Try:                                                |\n"
+      "|      make clean; make release                         |\n"
+      "|   then run:                                           |\n"
+      "|      ./executable/anno                                |\n"
+      "|   to use release/fast version                         |\n"
+      "|                                                       |\n"
+      "---------------------------------------------------------\n"
       ;
   fputs(debug, fp);
 #endif
@@ -87,7 +89,7 @@ class AnnotationController{
       delete tabixReader[i];
     };
 
-    
+
   };
   void openBedFile(const char* tag, const char* fn) {
     // check duplication
@@ -191,7 +193,7 @@ int main(int argc, char *argv[])
       ADD_STRING_PARAMETER(pl, outputFile, "-o", "Specify output file")
       ADD_PARAMETER_GROUP(pl, "Gene Annotations")
       ADD_STRING_PARAMETER(pl, geneFile, "-g", "Specify gene file")
-      ADD_STRING_PARAMETER(pl, referenceFile, "-r", "Specify reference genome position")      
+      ADD_STRING_PARAMETER(pl, referenceFile, "-r", "Specify reference genome position")
       ADD_STRING_PARAMETER(pl, inputFormat, "--inputFormat", "Specify format (default: vcf). \"-f plain \" will use first 4 columns as chrom, pos, ref, alt")
       ADD_BOOL_PARAMETER(pl, checkReference, "--checkReference", "Check whether reference alleles matches genome reference")
       ADD_STRING_PARAMETER(pl, geneFileFormat, "-f", "Specify gene file format (default: refFlat, other options: knownGene, refGene)")
@@ -204,10 +206,10 @@ int main(int argc, char *argv[])
       ADD_PARAMETER_GROUP(pl, "Other Annotations")
       ADD_STRING_PARAMETER(pl, genomeScore, "--genomeScore", "Specify the folder of genome score (e.g. GERP=dirGerp/,SIFT=dirSift/)")
       ADD_STRING_PARAMETER(pl, bedFile, "--bed", "Specify the bed file and tag (e.g. ONTARGET1=a1.bed,ONTARGET2=a2.bed)")
-      ADD_STRING_PARAMETER(pl, tabixFile, "--tabix", "Specify the tabix file and tag (e.g. abc.txt.gz(chrom=1,pos=7,ref=3,alt=4,SIFT=7,PolyPhen=10)")      
-      ADD_PARAMETER_GROUP(pl, "Auxillary Functions")      
+      ADD_STRING_PARAMETER(pl, tabixFile, "--tabix", "Specify the tabix file and tag (e.g. abc.txt.gz(chrom=1,pos=7,ref=3,alt=4,SIFT=7,PolyPhen=10)")
+      ADD_PARAMETER_GROUP(pl, "Auxillary Functions")
       ADD_STRING_PARAMETER(pl, outputFormat, "--outputFormat", "Specify predefined annotation words (default or epact)")
-      ADD_BOOL_PARAMETER(pl, indexOutput, "--indexOutput", "Specify whether to index output file using tabix (require .gz suffix for output file)")      
+      ADD_BOOL_PARAMETER(pl, indexOutput, "--indexOutput", "Specify whether to index output file using tabix (require .gz suffix for output file)")
       END_PARAMETER_LIST(pl)
       ;
 
@@ -230,7 +232,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Please give output file \".gz\" suffix to enable index (--indexOutput).\n");
     exit(1);
   }
-  
+
   GeneAnnotationParam param;
   param.upstreamRange = FLAG_upstreamRange ? FLAG_upstreamRange : 50;
   param.downstreamRange = FLAG_downstreamRange ? FLAG_downstreamRange : 50;
@@ -242,7 +244,7 @@ int main(int argc, char *argv[])
   LOG_START_TIME;
   LOG_PARAMETER(pl);
   LOG << "Version: " << gitVersion << "\n";
-  
+
   pl.Status();
   if (FLAG_REMAIN_ARG.size() > 0){
     fprintf(stderr, "Unparsed arguments: ");
@@ -251,24 +253,25 @@ int main(int argc, char *argv[])
     }
     abort();
   }
-  
+
   if (FLAG_geneFile.empty()) {
     pl.Help();
     fprintf(stderr, "Please specify gene file\n");
     exit(1);
   }
-  
+
   if (FLAG_priorityFile.empty()) {
-    fprintf(stderr, "Use default priority file: /net/fantasia/home/zhanxw/anno/priority.txt\n");
-    FLAG_priorityFile = "/net/fantasia/home/zhanxw/anno/priority.txt";
+    fprintf(stderr, "Use default priority file: /usr/share/anno/priority.txt\n");
+    FLAG_priorityFile = "/usr/share/anno/priority.txt";
   };
   if (FLAG_codonFile.empty()) {
-    fprintf(stderr, "Use default codon file: /net/fantasia/home/zhanxw/anno/codon.txt\n");
-    FLAG_codonFile = "/net/fantasia/home/zhanxw/anno/codon.txt";
+    fprintf(stderr, "Use default codon file: /usr/share/anno/codon.txt\n");
+    FLAG_codonFile = "/usr/share/anno/codon.txt";
   }
   if (FLAG_referenceFile.empty()) {
-    fprintf(stderr, "Use default codon file: /net/fantasia/home/zhanxw/anno/codon.txt\n");
-    FLAG_referenceFile = "/data/local/ref/karma.ref/human.g1k.v37.fa";
+    pl.Help();
+    fprintf(stderr, "Please specify reference genome file\n");
+    exit(1);
   }
 
   if (!FLAG_outputFormat.empty()) {
@@ -327,7 +330,7 @@ int main(int argc, char *argv[])
   // parse something like:
   // abc.txt.gz(chrom=1,pos=7,ref=3,alt=4,SIFT=7,PolyPhen=10)
   if(!FLAG_tabixFile.empty()){
-    fprintf(stderr, "Use tabix file: %s\n", FLAG_tabixFile.c_str() );    
+    fprintf(stderr, "Use tabix file: %s\n", FLAG_tabixFile.c_str() );
     ModelParser mp;
     mp.parse(FLAG_tabixFile);
     std::string fn = mp.getName();
@@ -335,7 +338,7 @@ int main(int argc, char *argv[])
     mp.assign("chrom", &chrom).assign("pos", &pos).assign("ref", &ref).assign("alt", &alt);
     fprintf(stderr, "Column %d, %d, %d and %d in tabix file will be matched to chromosome, position, reference allele, alternative allele respectively.\n", chrom, pos, ref, alt);
     TabixReader* tabix = new TabixReader(fn.c_str(), chrom, pos, ref, alt);
-    
+
     for (size_t i = 0; i < mp.getParam().size(); ++i) {
       if ( toLower(mp.getParam()[i]) == "chrom" ||
            toLower(mp.getParam()[i]) == "pos" ||
@@ -349,7 +352,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Tag %s will be from column %d in tabix file\n", mp.getParam()[i].c_str(), intValue);
       } else {
         tabix->addTag(mp.getParam()[i], mp.getValue(i));
-        fprintf(stderr, "Tag %s will be from column %s (from header) in tabix file\n", mp.getParam()[i].c_str(), mp.getValue(i).c_str());        
+        fprintf(stderr, "Tag %s will be from column %s (from header) in tabix file\n", mp.getParam()[i].c_str(), mp.getValue(i).c_str());
       }
     }
     controller.addTabixReader(tabix);
@@ -368,7 +371,7 @@ int main(int argc, char *argv[])
     aof.writeResult(controller.getResult());
   };
   // aof.writeResult(controller.getResult()); // TODO: will add this to handle when input only have comment lines
-  
+
   // output stats
   controller.geneAnnotation.outputAnnotationStats(FLAG_outputFile.c_str());
 
