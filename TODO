@@ -5,6 +5,7 @@ TODO
 8. Support different terms: e.g missense, non-sense ... instead of synonymous, nonsynonymous
 9. Support custom input file formats
 10. Support ANNOVAR type annotation
+13. Remove all hard link to external resources for tests and examples
 
 MIGHT-DO
 ========
